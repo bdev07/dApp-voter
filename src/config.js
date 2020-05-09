@@ -1,4 +1,5 @@
-const CONTRACT_NAME = process.env.CONTRACT_NAME || "bdevwantsdids.testnet";
+const CONTRACT_NAME =
+  process.env.CONTRACT_NAME || "dappvoter.bdevwantsdids.testnet";
 
 function getConfig(env) {
   switch (env) {

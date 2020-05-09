@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_OP=C:\Users\Brittany\developer\near\dapp-voter2\contract\target\debug\build\typenum-86c8d52f222fa261\out\consts.rs
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=C:\Users\Brittany\developer\near\dapp-voter2\contract\target\debug\build\typenum-86c8d52f222fa261\out\op.rs

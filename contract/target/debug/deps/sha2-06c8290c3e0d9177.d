@@ -1,0 +1,12 @@
+C:\Users\Brittany\developer\near\dapp-voter2\contract\target\debug\deps\sha2-06c8290c3e0d9177.rmeta: C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\lib.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\consts.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha256_utils.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha512_utils.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha256.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha512.rs
+
+C:\Users\Brittany\developer\near\dapp-voter2\contract\target\debug\deps\libsha2-06c8290c3e0d9177.rlib: C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\lib.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\consts.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha256_utils.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha512_utils.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha256.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha512.rs
+
+C:\Users\Brittany\developer\near\dapp-voter2\contract\target\debug\deps\sha2-06c8290c3e0d9177.d: C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\lib.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\consts.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha256_utils.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha512_utils.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha256.rs C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha512.rs
+
+C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\lib.rs:
+C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\consts.rs:
+C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha256_utils.rs:
+C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha512_utils.rs:
+C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha256.rs:
+C:\Users\Brittany\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.8.0\src\sha512.rs:
