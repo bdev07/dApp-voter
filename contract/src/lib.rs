@@ -40,6 +40,7 @@ impl Welcome {
         match self.records.get(&account_id) {
             None => {
                 env::log(b"Using default message.");
+                
                 return TextMessage { text: format!("Hello {}", account_id) }
             },
             _ => return TextMessage { text: format!("{} {}", self.records.get(&account_id).unwrap(), account_id) }
@@ -101,12 +102,12 @@ impl Welcome {
         }
     }
 
-    pub fn get_cand1(&self) -> u8 {
-        return self.candidate1;
-    }
-
-    pub fn get_cand2(&self) -> u8 {
-        return self.candidate2;
+    pub fn get_candidate_votes(&self, candidate: u8) -> u8 {
+        if candidate == 1 {
+            return self.candidate1;
+        } else {
+            return self.candidate2;
+        }
     }
 
     ///TODO: make restrict access to owner?
@@ -227,13 +228,13 @@ mod tests {
         testing_env!(context);
         let mut contract = Welcome::default();
         contract.increment_vote(1);
-        println!("Value after increment_vote1: {}", contract.get_cand1());
-        println!("Value after increment_vote2: {}", contract.get_cand2());
-        assert_eq!(1, contract.get_cand1());
+        println!("Value after increment_vote1: {}", contract.get_candidate_votes(1));
+        println!("Value after increment_vote2: {}", contract.get_candidate_votes(2));
+        assert_eq!(1, contract.get_candidate_votes(1));
         contract.increment_vote(2);
-        println!("Value after increment_vote1: {}", contract.get_cand1());
-        println!("Value after increment_vote2: {}", contract.get_cand2());
-        assert_eq!(1, contract.get_cand2());
+        println!("Value after increment_vote1: {}", contract.get_candidate_votes(1));
+        println!("Value after increment_vote2: {}", contract.get_candidate_votes(2));
+        assert_eq!(1, contract.get_candidate_votes(2));
     }
 
     #[test]
@@ -246,10 +247,10 @@ mod tests {
         contract.increment_vote(2);
 
         contract.reset_votes();
-        println!("Value after increment_vote1 reset: {}", contract.get_cand1());
-        println!("Value after increment_vote2 reset: {}", contract.get_cand2());
-        assert_eq!(0, contract.get_cand1());
-        assert_eq!(0, contract.get_cand2());
+        println!("Value after increment_vote1 reset: {}", contract.get_candidate_votes(1));
+        println!("Value after increment_vote2 reset: {}", contract.get_candidate_votes(2));
+        assert_eq!(0, contract.get_candidate_votes(1));
+        assert_eq!(0, contract.get_candidate_votes(2));
     }
 
 

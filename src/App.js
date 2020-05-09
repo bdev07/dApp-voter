@@ -44,9 +44,11 @@ class App extends Component {
       );
     }
     await this.welcome();
+    // await this.props.contract.increment_vote({ candidate: 1 });
   }
 
   async welcome() {
+    console.log("account id: ", accountId);
     const response = await this.props.contract.welcome({
       account_id: accountId,
     });
@@ -84,28 +86,67 @@ class App extends Component {
     });
   }
 
+  async incrementVote(value) {
+    await this.props.contract
+      .increment_vote({ candidate: value })
+      .then(async (result) => {
+        if (value === 1) {
+          this.setState({
+            count1: await this.props.contract.get_candidate_votes({
+              candidate: 1,
+            }),
+          });
+        } else {
+          this.setState({
+            count2: await this.props.contract.get_candidate_votes({
+              candidate: 2,
+            }),
+          });
+        }
+      });
+  }
+
   async pollButtonClicked(value) {
     console.log("pollButtonClicked(): ", value);
     if (value) {
       // increment
-      this.setState({ count: "fetching..." });
-      await this.props.contract.increment_vote(value).then(async (result) => {
-        console.log(".then.. ", result);
-        if (value === 1) {
-          this.setState({ count1: await this.props.contract.get_cand1() });
-        } else {
-          this.setState({ count2: await this.props.contract.get_cand2() });
-        }
-      });
+      if (value === 1) {
+        this.setState({ count1: "fetching..." });
+      } else {
+        this.setState({ count2: "fetching..." });
+      }
+
+      this.incrementVote(value);
+      // await this.props.contract
+      //   .increment_vote({ candidate: 1 })
+      //   .then(async (result) => {
+      //     if (value === 1) {
+      //       this.setState({
+      //         count1: await this.props.contract.get_candidate_votes({
+      //           candidate: 1,
+      //         }),
+      //       });
+      //     } else {
+      //       this.setState({
+      //         count2: await this.props.contract.get_candidate_votes({
+      //           candidate: 2,
+      //         }),
+      //       });
+      //     }
+      //   });
     }
   }
 
   async resetButtonClicked() {
     console.log("resetButtonClicked(): ");
-    await this.props.contract.reset_votes().then(async (result) => {
+    await this.props.contract.reset_votes().then(async () => {
       this.setState({
-        count1: await this.props.contract.get_cand1(),
-        count2: await this.props.contract.get_cand2(),
+        count1: await this.props.contract.get_candidate_votes({
+          candidate: 1,
+        }),
+        count2: await this.props.contract.get_candidate_votes({
+          candidate: 2,
+        }),
       });
     });
   }
