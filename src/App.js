@@ -11,7 +11,8 @@ class App extends Component {
     this.state = {
       login: false,
       speech: null,
-      count: null,
+      count1: null,
+      count2: null,
     };
     this.signedInFlow = this.signedInFlow.bind(this);
     this.requestSignIn = this.requestSignIn.bind(this);
@@ -88,17 +89,24 @@ class App extends Component {
     if (value) {
       // increment
       this.setState({ count: "fetching..." });
-      await this.props.contract.increment().then(async (result) => {
+      await this.props.contract.increment_vote(value).then(async (result) => {
         console.log(".then.. ", result);
-        this.setState({ count: await this.props.contract.get_count() });
+        if (value === 1) {
+          this.setState({ count1: await this.props.contract.get_cand1() });
+        } else {
+          this.setState({ count2: await this.props.contract.get_cand2() });
+        }
       });
     }
   }
 
   async resetButtonClicked() {
     console.log("resetButtonClicked(): ");
-    await this.props.contract.reset().then(async (result) => {
-      this.setState({ count: await this.props.contract.get_count() });
+    await this.props.contract.reset_votes().then(async (result) => {
+      this.setState({
+        count1: await this.props.contract.get_cand1(),
+        count2: await this.props.contract.get_cand2(),
+      });
     });
   }
 
@@ -140,18 +148,18 @@ class App extends Component {
               <button onClick={this.changeGreeting}>Change greeting</button>
               <div className="poll-buttons">
                 <p>Who shall rule the throne?</p>
-                <button
-                  id="this"
-                  onClick={() => this.pollButtonClicked("John")}
-                >
-                  John
+                <button id="this" onClick={() => this.pollButtonClicked(1)}>
+                  Vote for John
                 </button>
-                <button onClick={() => this.pollButtonClicked("Susan")}>
-                  Susan
+                <button onClick={() => this.pollButtonClicked(2)}>
+                  Vote for Susan
                 </button>
               </div>
               <p>
-                Count: {this.state.count === null ? "..." : this.state.count}
+                count1: {this.state.count1 === null ? "..." : this.state.count1}
+              </p>
+              <p>
+                count2: {this.state.count2 === null ? "..." : this.state.count2}
               </p>
               {
                 //TODO: only show reset if admin account logged in?
