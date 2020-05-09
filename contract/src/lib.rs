@@ -11,9 +11,8 @@ pub struct TextMessage {
     text: String
 }
 
-/// TODO: make two counters, on for each poll
 /// TODO: change contract name from Welcome to DappVoter
-/// TODO: constructor should create new poll struct
+/// TODO: constructor should create new poll struct where amount of candidates is dependent on parameter passed to constructors --> each contract is a new poll
 /**
 pub struct DappVoter {
     poll: HashMap<String, u8>
@@ -24,7 +23,6 @@ pub struct DappVoter {
 #[derive(Default, BorshDeserialize, BorshSerialize)]
 pub struct Welcome {
     records: HashMap<String, String>,
-    // count: u8,
     candidate1: u8,
     candidate2: u8
 }
@@ -47,50 +45,15 @@ impl Welcome {
         }
     }
 
-    // pub fn get_count(&self) -> u8 {
-    //     return self.count;
-    // }
-
-    // pub fn get_poll(&self) -> u8 {
-    //     return 11;
-    // }
-
-    // pub fn set_poll(&mut self, candidate: String) {
-    //     let starting_tallies = 0;
-    //     self.poll.insert(candidate, starting_tallies);
-    //     println!("{}", self.poll.get(&starting_tallies));
-    // }
-
-    // pub fn set_count(&mut self, n: u8) {
-    //     if n < 255 {
-    //         self.count = n;
-    //         let log_message = format!("Set number to {}", self.count);
-    //         env::log(log_message.as_bytes());
-    //         after_counter_change();
-    //     } else {
-    //         env::log(b"[set_count_error] Count would be higher than 254");
-    //     }
-    // }
-
-    // ///TODO: take in parameter for which count to increment
-    // pub fn increment(&mut self) {
-    //     if self.count+1 < 255 {
-    //         self.count += 1;
-    //         let log_message = format!("Increased number to {}", self.count);
-    //         env::log(log_message.as_bytes());
-    //         after_counter_change();
-    //     } else {
-    //         env::log(b"[increment_error] Count would be higher than 254");
-    //     }
-    // }
-
     pub fn increment_vote(&mut self, candidate: u8) {
         if candidate == 1 {
+            // TODO: check < 255
             self.candidate1 += 1;
             let log_message = format!("Increased candidate1 vote to {}", self.candidate1);
             env::log(log_message.as_bytes());
             after_counter_change();
         } else if candidate == 2 {
+            // TODO: check < 255
             self.candidate2 += 1;
             let log_message = format!("Increased candidate2 vote to {}", self.candidate2);
             env::log(log_message.as_bytes());
@@ -111,13 +74,6 @@ impl Welcome {
     }
 
     ///TODO: make restrict access to owner?
-    /// Reset to zero.
-    // pub fn reset(&mut self) {
-    //     self.count = 0;
-    //     // Another way to log is to cast a string into bytes, hence "b" below:
-    //     env::log(b"Reset counter to zero");
-    // }
-
     /// reset all candidates to 0
     pub fn reset_votes(&mut self) {
         self.candidate1 = 0;
@@ -178,49 +134,6 @@ mod tests {
         let contract = Welcome::default();
         assert_eq!("Hello francis.near".to_string(), contract.welcome("francis.near".to_string()).text);
     }
-
-    // #[test]
-    // fn get_count() {
-    //     let context = get_context(vec![], true);
-    //     testing_env!(context);
-    //     let contract  = Welcome::default();
-    //     // println!(contract.get_count());
-    //     assert_eq!(0, contract.get_count());
-    // }
-
-
-
-    // #[test]
-    // fn set_count() {
-    //     let context = get_context(vec![], true);
-    //     testing_env!(context);
-    //     let mut contract = Welcome::default();
-    //     contract.set_count(254);
-    //     assert_eq!(254, contract.get_count());
-    // }
-
-    // #[test]
-    // fn increment() {
-    //     let context = get_context(vec![], true);
-    //     testing_env!(context);
-    //     let mut contract = Welcome::default();
-    //     contract.increment();
-    //     println!("Value after increment: {}", contract.get_count());
-    //     assert_eq!(1, contract.get_count());
-    // }
-
-    // #[test]
-    // fn increment_and_reset() {
-    //     let context = get_context(vec![], false);
-    //     testing_env!(context);
-    //     let mut contract = Welcome::default();
-    //     contract.increment();
-    //     println!("Value after increment: {}", contract.get_count());
-    //     contract.reset();
-    //     println!("Value after reset: {}", contract.get_count());
-    //     // confirm that we received 0 when calling get_count
-    //     assert_eq!(0, contract.get_count());
-    // }
 
     #[test]
     fn increment_vote() {

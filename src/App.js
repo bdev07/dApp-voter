@@ -5,6 +5,10 @@ import nearlogo from "./assets/gray_near_logo.svg";
 import near from "./assets/near.svg";
 import "./App.css";
 
+// TODO: add dialogue to confirm vote before writing to blockchain
+
+// TODO: ensure sign will complete every time, one account per browser session
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -140,7 +144,7 @@ class App extends Component {
         </div>
         <div className="app-body">
           {this.state.login ? (
-            <div>
+            <div className="poll">
               {/* <div className="wallet-info">
                 <div className="greeting">
                   <p className="subtitle">{this.state.speech}</p>
