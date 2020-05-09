@@ -5,13 +5,18 @@ import nearlogo from "./assets/gray_near_logo.svg";
 import near from "./assets/near.svg";
 import "./App.css";
 
+// TODO: add dialogue to confirm vote before writing to blockchain
+
+// TODO: ensure sign will complete every time, one account per browser session
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       login: false,
       speech: null,
-      count: null,
+      count1: null,
+      count2: null,
     };
     this.signedInFlow = this.signedInFlow.bind(this);
     this.requestSignIn = this.requestSignIn.bind(this);
@@ -46,6 +51,7 @@ class App extends Component {
   }
 
   async welcome() {
+    console.log("account id: ", accountId);
     const response = await this.props.contract.welcome({
       account_id: accountId,
     });
@@ -83,76 +89,90 @@ class App extends Component {
     });
   }
 
+  async incrementVote(value) {
+    await this.props.contract
+      .increment_vote({ candidate: value })
+      .then(async (result) => {
+        if (value === 1) {
+          this.setState({
+            count1: await this.props.contract.get_candidate_votes({
+              candidate: 1,
+            }),
+          });
+        } else {
+          this.setState({
+            count2: await this.props.contract.get_candidate_votes({
+              candidate: 2,
+            }),
+          });
+        }
+      });
+  }
+
   async pollButtonClicked(value) {
     console.log("pollButtonClicked(): ", value);
     if (value) {
-      // increment
-      this.setState({ count: "fetching..." });
-      await this.props.contract.increment().then(async (result) => {
-        console.log(".then.. ", result);
-        this.setState({ count: await this.props.contract.get_count() });
-      });
+      if (value === 1) {
+        this.setState({ count1: "fetching..." });
+      } else {
+        this.setState({ count2: "fetching..." });
+      }
+      this.incrementVote(value);
     }
   }
 
   async resetButtonClicked() {
     console.log("resetButtonClicked(): ");
-    await this.props.contract.reset().then(async (result) => {
-      this.setState({ count: await this.props.contract.get_count() });
+    await this.props.contract.reset_votes().then(async () => {
+      this.setState({
+        count1: await this.props.contract.get_candidate_votes({
+          candidate: 1,
+        }),
+        count2: await this.props.contract.get_candidate_votes({
+          candidate: 2,
+        }),
+      });
     });
   }
 
   render() {
-    let style = {
-      fontSize: "1.5rem",
-      color: "#0072CE",
-      textShadow: "1px 1px #D1CCBD",
-    };
     return (
-      <div className="App-header">
-        <div className="image-wrapper">
-          <img className="logo" src={nearlogo} alt="NEAR logo" />
-          <p>
-            <span role="img" aria-label="fish">
-              🐟
-            </span>{" "}
-            NEAR protocol is a new blockchain focused on developer productivity
-            and useability!
-            <span role="img" aria-label="fish">
-              🐟
-            </span>
-          </p>
-          <p>
-            <span role="img" aria-label="chain">
-              ⛓
-            </span>{" "}
-            This little react app is connected to blockchain right now.{" "}
-            <span role="img" aria-label="chain">
-              ⛓
-            </span>
-          </p>
-          <p style={style}>{this.state.speech}</p>
+      <div className="app">
+        <div className="app-header">
+          <h1>dApp-Voter</h1>
+          <h4>Decentralized voting proof of concept.</h4>
         </div>
-        <div>
+        <div className="app-body">
           {this.state.login ? (
-            <div>
-              <button onClick={this.requestSignOut}>Log out</button>
-              <button onClick={this.changeGreeting}>Change greeting</button>
+            <div className="poll">
+              {/* <div className="wallet-info">
+                <div className="greeting">
+                  <p className="subtitle">{this.state.speech}</p>
+                </div>
+                <div className="login-buttons">
+                  <button onClick={this.requestSignOut}>Log out</button>
+                  <button onClick={this.changeGreeting}>Change greeting</button>
+                </div>
+              </div> */}
+              <p className="subtitle">Who shall rule the throne?</p>
               <div className="poll-buttons">
-                <p>Who shall rule the throne?</p>
-                <button
-                  id="this"
-                  onClick={() => this.pollButtonClicked("John")}
-                >
-                  John
+                <button id="this" onClick={() => this.pollButtonClicked(1)}>
+                  Vote for John
                 </button>
-                <button onClick={() => this.pollButtonClicked("Susan")}>
-                  Susan
+                <button onClick={() => this.pollButtonClicked(2)}>
+                  Vote for Susan
                 </button>
               </div>
-              <p>
-                Count: {this.state.count === null ? "..." : this.state.count}
-              </p>
+              <div className="poll-counts">
+                <p>
+                  count1:{" "}
+                  {this.state.count1 === null ? "..." : this.state.count1}
+                </p>
+                <p>
+                  count2:{" "}
+                  {this.state.count2 === null ? "..." : this.state.count2}
+                </p>
+              </div>
               {
                 //TODO: only show reset if admin account logged in?
                 true === true && (
@@ -165,48 +185,38 @@ class App extends Component {
               }
             </div>
           ) : (
-            <button onClick={this.requestSignIn}>Log in with NEAR</button>
+            <div>
+              <button onClick={this.requestSignIn}>Log in with NEAR</button>
+            </div>
           )}
         </div>
-        <div>
-          <div className="logo-wrapper">
-            <img src={near} className="App-logo margin-logo" alt="logo" />
-            <img src={logo} className="App-logo" alt="logo" />
+        <div className="app-footer">
+          <div className="footer-links">
+            <p>
+              <a
+                className="App-link"
+                href="https://reactjs.org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Learn React
+              </a>
+            </p>
+            <p>
+              <a className="App-link" href="https://nearprotocol.com">
+                NEAR Website
+              </a>
+            </p>
+            <p>
+              <a className="App-link" href="https://docs.nearprotocol.com">
+                NEAR Docs
+              </a>
+            </p>
           </div>
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <p>
-            <span role="img" aria-label="net">
-              🕸
-            </span>{" "}
-            <a className="App-link" href="https://nearprotocol.com">
-              NEAR Website
-            </a>{" "}
-            <span role="img" aria-label="net">
-              🕸
-            </span>
-          </p>
-          <p>
-            <span role="img" aria-label="book">
-              📚
-            </span>
-            <a className="App-link" href="https://docs.nearprotocol.com">
-              {" "}
-              Learn from NEAR Documentation
-            </a>{" "}
-            <span role="img" aria-label="book">
-              📚
-            </span>
-          </p>
+          <div className="near-image-wrapper">
+            <p>This page was built with</p>
+            <img className="logo" src={nearlogo} alt="NEAR logo" />
+          </div>
         </div>
       </div>
     );

@@ -35,9 +35,9 @@ async function initContract() {
     window.nearConfig.contractName,
     {
       // View methods are read only. They don't modify the state, but usually return some value.
-      viewMethods: ["welcome", "get_count"],
+      viewMethods: ["welcome", "get_candidate_votes"],
       // Change methods can modify the state. But you don't receive the returned value when called.
-      changeMethods: ["set_greeting", "set_count", "increment", "reset"],
+      changeMethods: ["set_greeting", "increment_vote", "reset_votes"],
       // Sender is the account ID to initialize transactions.
       sender: window.accountId,
     }
