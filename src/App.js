@@ -44,7 +44,6 @@ class App extends Component {
       );
     }
     await this.welcome();
-    // await this.props.contract.increment_vote({ candidate: 1 });
   }
 
   async welcome() {
@@ -109,31 +108,12 @@ class App extends Component {
   async pollButtonClicked(value) {
     console.log("pollButtonClicked(): ", value);
     if (value) {
-      // increment
       if (value === 1) {
         this.setState({ count1: "fetching..." });
       } else {
         this.setState({ count2: "fetching..." });
       }
-
       this.incrementVote(value);
-      // await this.props.contract
-      //   .increment_vote({ candidate: 1 })
-      //   .then(async (result) => {
-      //     if (value === 1) {
-      //       this.setState({
-      //         count1: await this.props.contract.get_candidate_votes({
-      //           candidate: 1,
-      //         }),
-      //       });
-      //     } else {
-      //       this.setState({
-      //         count2: await this.props.contract.get_candidate_votes({
-      //           candidate: 2,
-      //         }),
-      //       });
-      //     }
-      //   });
     }
   }
 
@@ -152,43 +132,26 @@ class App extends Component {
   }
 
   render() {
-    let style = {
-      fontSize: "1.5rem",
-      color: "#0072CE",
-      textShadow: "1px 1px #D1CCBD",
-    };
     return (
-      <div className="App-header">
-        <div className="image-wrapper">
-          <img className="logo" src={nearlogo} alt="NEAR logo" />
-          <p>
-            <span role="img" aria-label="fish">
-              🐟
-            </span>{" "}
-            NEAR protocol is a new blockchain focused on developer productivity
-            and useability!
-            <span role="img" aria-label="fish">
-              🐟
-            </span>
-          </p>
-          <p>
-            <span role="img" aria-label="chain">
-              ⛓
-            </span>{" "}
-            This little react app is connected to blockchain right now.{" "}
-            <span role="img" aria-label="chain">
-              ⛓
-            </span>
-          </p>
-          <p style={style}>{this.state.speech}</p>
+      <div className="app">
+        <div className="app-header">
+          <h1>dApp-Voter</h1>
+          <h4>Decentralized voting proof of concept.</h4>
         </div>
-        <div>
+        <div className="app-body">
           {this.state.login ? (
             <div>
-              <button onClick={this.requestSignOut}>Log out</button>
-              <button onClick={this.changeGreeting}>Change greeting</button>
+              {/* <div className="wallet-info">
+                <div className="greeting">
+                  <p className="subtitle">{this.state.speech}</p>
+                </div>
+                <div className="login-buttons">
+                  <button onClick={this.requestSignOut}>Log out</button>
+                  <button onClick={this.changeGreeting}>Change greeting</button>
+                </div>
+              </div> */}
+              <p className="subtitle">Who shall rule the throne?</p>
               <div className="poll-buttons">
-                <p>Who shall rule the throne?</p>
                 <button id="this" onClick={() => this.pollButtonClicked(1)}>
                   Vote for John
                 </button>
@@ -196,12 +159,16 @@ class App extends Component {
                   Vote for Susan
                 </button>
               </div>
-              <p>
-                count1: {this.state.count1 === null ? "..." : this.state.count1}
-              </p>
-              <p>
-                count2: {this.state.count2 === null ? "..." : this.state.count2}
-              </p>
+              <div className="poll-counts">
+                <p>
+                  count1:{" "}
+                  {this.state.count1 === null ? "..." : this.state.count1}
+                </p>
+                <p>
+                  count2:{" "}
+                  {this.state.count2 === null ? "..." : this.state.count2}
+                </p>
+              </div>
               {
                 //TODO: only show reset if admin account logged in?
                 true === true && (
@@ -214,48 +181,38 @@ class App extends Component {
               }
             </div>
           ) : (
-            <button onClick={this.requestSignIn}>Log in with NEAR</button>
+            <div>
+              <button onClick={this.requestSignIn}>Log in with NEAR</button>
+            </div>
           )}
         </div>
-        <div>
-          <div className="logo-wrapper">
-            <img src={near} className="App-logo margin-logo" alt="logo" />
-            <img src={logo} className="App-logo" alt="logo" />
+        <div className="app-footer">
+          <div className="footer-links">
+            <p>
+              <a
+                className="App-link"
+                href="https://reactjs.org"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Learn React
+              </a>
+            </p>
+            <p>
+              <a className="App-link" href="https://nearprotocol.com">
+                NEAR Website
+              </a>
+            </p>
+            <p>
+              <a className="App-link" href="https://docs.nearprotocol.com">
+                NEAR Docs
+              </a>
+            </p>
           </div>
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <p>
-            <span role="img" aria-label="net">
-              🕸
-            </span>{" "}
-            <a className="App-link" href="https://nearprotocol.com">
-              NEAR Website
-            </a>{" "}
-            <span role="img" aria-label="net">
-              🕸
-            </span>
-          </p>
-          <p>
-            <span role="img" aria-label="book">
-              📚
-            </span>
-            <a className="App-link" href="https://docs.nearprotocol.com">
-              {" "}
-              Learn from NEAR Documentation
-            </a>{" "}
-            <span role="img" aria-label="book">
-              📚
-            </span>
-          </p>
+          <div className="near-image-wrapper">
+            <p>This page was built with</p>
+            <img className="logo" src={nearlogo} alt="NEAR logo" />
+          </div>
         </div>
       </div>
     );
