@@ -145,7 +145,7 @@ class App extends Component {
         <div className="app-body">
           {this.state.login ? (
             <div className="poll">
-              {/* <div className="wallet-info">
+              <div className="wallet-info">
                 <div className="greeting">
                   <p className="subtitle">{this.state.speech}</p>
                 </div>
@@ -153,7 +153,7 @@ class App extends Component {
                   <button onClick={this.requestSignOut}>Log out</button>
                   <button onClick={this.changeGreeting}>Change greeting</button>
                 </div>
-              </div> */}
+              </div>
               <p className="subtitle">Who shall rule the throne?</p>
               <div className="poll-buttons">
                 <button id="this" onClick={() => this.pollButtonClicked(1)}>
