@@ -143,16 +143,16 @@ class App extends Component {
           <h4>Decentralized voting proof of concept.</h4>
         </div>
         <div className="app-body">
+          <div className="wallet-info">
+            <div className="greeting">
+              <p className="subtitle">{this.state.speech}</p>
+            </div>
+          </div>
           {this.state.login ? (
             <div className="poll">
-              <div className="wallet-info">
-                <div className="greeting">
-                  <p className="subtitle">{this.state.speech}</p>
-                </div>
-                <div className="login-buttons">
-                  <button onClick={this.requestSignOut}>Log out</button>
-                  <button onClick={this.changeGreeting}>Change greeting</button>
-                </div>
+              <div className="login-buttons">
+                <button onClick={this.requestSignOut}>Log out</button>
+                <button onClick={this.changeGreeting}>Change greeting</button>
               </div>
               <p className="subtitle">Who shall rule the throne?</p>
               <div className="poll-buttons">

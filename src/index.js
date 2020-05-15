@@ -46,6 +46,7 @@ async function initContract() {
 
 window.nearInitPromise = initContract()
   .then(() => {
+    console.log(window.near);
     ReactDOM.render(
       <App contract={window.contract} wallet={window.walletAccount} />,
       document.getElementById("root")
