@@ -142,6 +142,7 @@ class App extends Component {
           <h1>dApp-Voter</h1>
           <h4>Decentralized voting proof of concept.</h4>
         </div>
+        <h1>HOWS THIS PAGES THING WERK?</h1>
         <div className="app-body">
           <div className="wallet-info">
             <div className="greeting">
