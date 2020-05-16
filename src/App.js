@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import ReadyDialog from "./components/dialogs/ReadyDialog.component";
 import ConfirmVoteDialog from "./components/dialogs/ConfirmVoteDialog.component";
 import ThankYouDialog from "./components/dialogs/ThankYouDialog.component";
+import LoadingBackdrop from "./components/backdrops/LoadingBackdrop.component";
 
 // TODO: ensure sign will complete every time, one account per browser session
 
@@ -26,6 +27,7 @@ class App extends Component {
       readyDialogOpen: true,
       confirmVoteDialogOpen: false,
       voteButtonsDisabled: true,
+      loadingBackdropOpen: false,
       thankYouDialogOpen: false,
     };
     this.signedInFlow = this.signedInFlow.bind(this);
@@ -111,8 +113,7 @@ class App extends Component {
     await this.props.contract
       .increment_vote({ candidate: value })
       .then(async (result) => {
-        // disable buttons and open vote made dialog
-
+        this.setState({ loadingBackdropOpen: false, thankYouDialogOpen: true });
         if (value === 1) {
           this.setState({
             count1: await this.props.contract.get_candidate_votes({
@@ -174,7 +175,7 @@ class App extends Component {
   confirmVote() {
     if (this.state.vote) {
       this.incrementVote(this.state.vote);
-      this.setState({ voteButtonsDisabled: true, thankYouDialogOpen: true });
+      this.setState({ voteButtonsDisabled: true, loadingBackdropOpen: true });
     } else {
       console.log("err: vote null", this.state.vote);
     }
@@ -183,6 +184,9 @@ class App extends Component {
   render() {
     return (
       <div className="app">
+        <div className="backdrops">
+          <LoadingBackdrop open={this.state.loadingBackdropOpen} />
+        </div>
         <div className="app-header">
           <h1>dApp-Voter</h1>
           <h4>Decentralized voting proof of concept.</h4>
