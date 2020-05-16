@@ -47151,8 +47151,6 @@ class App extends _react.Component {
       speech: null
     });
   }
-  /* Increment Contact Count */
-
 
   async incrementVote(value) {
     await this.props.contract.increment_vote({
@@ -47236,6 +47234,7 @@ class App extends _react.Component {
   }
 
   render() {
+    console.log(this.props.wallet);
     return /*#__PURE__*/_react.default.createElement("div", {
       className: "app"
     }, /*#__PURE__*/_react.default.createElement("div", {
@@ -47244,7 +47243,7 @@ class App extends _react.Component {
       open: this.state.loadingBackdropOpen
     })), /*#__PURE__*/_react.default.createElement("div", {
       className: "app-header"
-    }, /*#__PURE__*/_react.default.createElement("h1", null, "dApp-Voter"), /*#__PURE__*/_react.default.createElement("h4", null, "Decentralized voting proof of concept.")), /*#__PURE__*/_react.default.createElement("h1", null, "HOWS THIS PAGES THING WERK?"), /*#__PURE__*/_react.default.createElement("div", {
+    }, /*#__PURE__*/_react.default.createElement("h1", null, "dApp-Voter"), /*#__PURE__*/_react.default.createElement("h4", null, "Decentralized voting proof of concept.")), /*#__PURE__*/_react.default.createElement("div", {
       className: "app-body"
     }, /*#__PURE__*/_react.default.createElement("div", {
       className: "dialogs"
@@ -47329,6 +47328,8 @@ exports.default = _default;
 const CONTRACT_NAME = "dappvoter.bdevwantsdids.testnet" || "dappvoter.bdevwantsdids.testnet";
 
 function getConfig(env) {
+  console.log("env: ", env);
+
   switch (env) {
     case "production":
     case "mainnet":
@@ -68185,7 +68186,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Initializing contract
 async function initContract() {
   window.nearConfig = (0, _config.default)("development" || "development");
-  console.log("nearConfig", window.nearConfig); // Initializing connection to the NEAR DevNet.
+  console.log("env", "development" || "development");
+  console.log("window.nearConfig", window.nearConfig); // Initializing connection to the NEAR DevNet.
 
   window.near = await nearlib.connect(Object.assign({
     deps: {
@@ -68209,7 +68211,7 @@ async function initContract() {
 }
 
 window.nearInitPromise = initContract().then(() => {
-  console.log(window.near);
+  console.log("window.near", window.near);
 
   _reactDom.default.render( /*#__PURE__*/_react.default.createElement(_App.default, {
     contract: window.contract,
