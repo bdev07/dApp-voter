@@ -108,7 +108,6 @@ class App extends Component {
     });
   }
 
-  /* Increment Contact Count */
   async incrementVote(value) {
     await this.props.contract
       .increment_vote({ candidate: value })
@@ -182,6 +181,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props.wallet);
     return (
       <div className="app">
         <div className="backdrops">
@@ -191,8 +191,6 @@ class App extends Component {
           <h1>dApp-Voter</h1>
           <h4>Decentralized voting proof of concept.</h4>
         </div>
-        <h1>HOWS THIS PAGES THING WERK?</h1>
-
         <div className="app-body">
           <div className="dialogs">
             <ReadyDialog

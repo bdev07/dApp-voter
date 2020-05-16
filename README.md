@@ -8,9 +8,11 @@
 <br />
 <br />
 
-## Template for NEAR dapps
+## dApp Voter
+
 ### Requirements
-##### IMPORTANT: Make sure you have the latest version of NEAR Shell and Node Version > 10.x 
+
+##### IMPORTANT: Make sure you have the latest version of NEAR Shell and Node Version > 10.x
 
 1. [Node.js](https://nodejs.org/en/download/package-manager/)
 2. (optional) near-shell
@@ -18,10 +20,13 @@
 ```
 npm i -g near-shell
 ```
+
 3. (optional) yarn
+
 ```
 npm i -g yarn
 ```
+
 ### To run on NEAR testnet
 
 ```bash
