@@ -128,7 +128,7 @@ p {
   padding: 2%;
 }
 
-button {
+/* button {
   padding: 5px;
   color: #0072ce;
   border-radius: 10px;
@@ -137,9 +137,9 @@ button {
 
 button:hover {
   cursor: pointer;
-  color: white;
+  color: black;
   background: #0072ce;
-}
+} */
 
 
 /*# sourceMappingURL=/src.e31bb0bc.css.map */
