@@ -8,7 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 
-class ReadyDialog extends Component {
+class ConfirmVoteDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +21,6 @@ class ReadyDialog extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log("did update");
     if (prevProps.open !== this.props.open) {
       this.setState({ open: this.props.open });
     }
@@ -42,8 +41,6 @@ class ReadyDialog extends Component {
   }
 
   render() {
-    console.log(this.props);
-    console.log(this.state);
     return (
       <div>
         <Dialog
@@ -75,4 +72,4 @@ class ReadyDialog extends Component {
   }
 }
 
-export default ReadyDialog;
+export default ConfirmVoteDialog;

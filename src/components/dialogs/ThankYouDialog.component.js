@@ -6,14 +6,14 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-class ReadyDialog extends Component {
+class ThankYouDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
       open: props.open,
     };
 
-    this.handleClickOpen = this.handleClickOpen.bind(this);
+    this.handleConfirmed = this.handleConfirmed.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.setOpen = this.setOpen.bind(this);
   }
@@ -28,13 +28,13 @@ class ReadyDialog extends Component {
     this.setState({ open: bool });
   }
 
-  handleClickOpen() {
-    this.setOpen(true);
+  handleConfirmed() {
+    this.handleClose();
   }
 
   handleClose() {
     this.setOpen(false);
-    this.props.updateReadyToVote();
+    this.props.toggleConfirmVoteDialogOpen();
   }
 
   render() {
@@ -47,16 +47,16 @@ class ReadyDialog extends Component {
           aria-labelledby="responsive-dialog-title"
         >
           <DialogTitle id="responsive-dialog-title">
-            {"Ready to vote?"}
+            {"Thanks For Voting!"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Are you ready to cast your vote on the blockchain?
+              Your vote has been made! Thank you for voting on the blockchain.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary" autoFocus>
-              Yes, I'm ready.
+            <Button disabled onClick={this.handleClose}>
+              Refresh page to vote again.
             </Button>
           </DialogActions>
         </Dialog>
@@ -65,4 +65,4 @@ class ReadyDialog extends Component {
   }
 }
 
-export default ReadyDialog;
+export default ThankYouDialog;

@@ -5,10 +5,11 @@ import nearlogo from "./assets/gray_near_logo.svg";
 import near from "./assets/near.svg";
 import "./App.css";
 
+import Button from "@material-ui/core/Button";
+
 import ReadyDialog from "./components/dialogs/ReadyDialog.component";
 import ConfirmVoteDialog from "./components/dialogs/ConfirmVoteDialog.component";
-
-// TODO: add dialogue to confirm vote before writing to blockchain
+import ThankYouDialog from "./components/dialogs/ThankYouDialog.component";
 
 // TODO: ensure sign will complete every time, one account per browser session
 
@@ -24,6 +25,8 @@ class App extends Component {
       readyToVote: false,
       readyDialogOpen: true,
       confirmVoteDialogOpen: false,
+      voteButtonsDisabled: true,
+      thankYouDialogOpen: false,
     };
     this.signedInFlow = this.signedInFlow.bind(this);
     this.requestSignIn = this.requestSignIn.bind(this);
@@ -46,7 +49,6 @@ class App extends Component {
   }
 
   async signedInFlow() {
-    console.log("come in sign in flow");
     this.setState({
       login: true,
       count1: await this.props.contract.get_candidate_votes({
@@ -104,10 +106,13 @@ class App extends Component {
     });
   }
 
+  /* Increment Contact Count */
   async incrementVote(value) {
     await this.props.contract
       .increment_vote({ candidate: value })
       .then(async (result) => {
+        // disable buttons and open vote made dialog
+
         if (value === 1) {
           this.setState({
             count1: await this.props.contract.get_candidate_votes({
@@ -125,8 +130,6 @@ class App extends Component {
   }
 
   async pollButtonClicked(value) {
-    console.log("pollButtonClicked(): ", value);
-    // open confirm vote dialog
     if (value) {
       if (value === 1) {
         this.setState({
@@ -157,7 +160,11 @@ class App extends Component {
   }
 
   updateReadyToVote() {
-    this.setState({ readyToVote: true, readyDialogOpen: false });
+    this.setState({
+      readyToVote: true,
+      readyDialogOpen: false,
+      voteButtonsDisabled: false,
+    });
   }
 
   toggleConfirmVoteDialogOpen() {
@@ -167,13 +174,13 @@ class App extends Component {
   confirmVote() {
     if (this.state.vote) {
       this.incrementVote(this.state.vote);
+      this.setState({ voteButtonsDisabled: true, thankYouDialogOpen: true });
     } else {
       console.log("err: vote null", this.state.vote);
     }
   }
 
   render() {
-    console.log("state", this.state);
     return (
       <div className="app">
         <div className="app-header">
@@ -195,6 +202,7 @@ class App extends Component {
                 this
               )}
             />
+            <ThankYouDialog open={this.state.thankYouDialogOpen} />
           </div>
           <div className="wallet-info">
             <div className="greeting">
@@ -204,17 +212,31 @@ class App extends Component {
           {this.state.login ? (
             <div className="poll">
               <div className="login-buttons">
-                <button onClick={this.requestSignOut}>Log out</button>
-                <button onClick={this.changeGreeting}>Change greeting</button>
+                <Button variant="contained" onClick={this.requestSignOut}>
+                  Log out
+                </Button>
+                <Button variant="contained" onClick={this.changeGreeting}>
+                  Change greeting
+                </Button>
               </div>
               <p className="subtitle">Who shall rule the throne?</p>
               <div className="poll-buttons">
-                <button id="this" onClick={() => this.pollButtonClicked(1)}>
+                <Button
+                  disabled={this.state.voteButtonsDisabled}
+                  onClick={() => this.pollButtonClicked(1)}
+                  color="primary"
+                  variant="contained"
+                >
                   Vote for John
-                </button>
-                <button onClick={() => this.pollButtonClicked(2)}>
+                </Button>
+                <Button
+                  disabled={this.state.voteButtonsDisabled}
+                  onClick={() => this.pollButtonClicked(2)}
+                  color="secondary"
+                  variant="contained"
+                >
                   Vote for Susan
-                </button>
+                </Button>
               </div>
               <div className="poll-counts">
                 <p>
@@ -230,16 +252,18 @@ class App extends Component {
                 //TODO: only show reset if admin account logged in?
                 true === true && (
                   <div className="reset-button">
-                    <button onClick={() => this.resetButtonClicked()}>
+                    <Button onClick={() => this.resetButtonClicked()}>
                       RESET COUNT
-                    </button>
+                    </Button>
                   </div>
                 )
               }
             </div>
           ) : (
             <div>
-              <button onClick={this.requestSignIn}>Log in with NEAR</button>
+              <Button variant="contained" onClick={this.requestSignIn}>
+                Log in with NEAR
+              </Button>
             </div>
           )}
         </div>
