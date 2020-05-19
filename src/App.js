@@ -11,6 +11,7 @@ import ReadyDialog from "./components/dialogs/ReadyDialog.component";
 import ConfirmVoteDialog from "./components/dialogs/ConfirmVoteDialog.component";
 import ThankYouDialog from "./components/dialogs/ThankYouDialog.component";
 import LoadingBackdrop from "./components/backdrops/LoadingBackdrop.component";
+import ValidateForm from "./components/dialogs/ValidateForm.component";
 
 // TODO: ensure sign will complete every time, one account per browser session
 
@@ -24,7 +25,8 @@ class App extends Component {
       count2: null,
       vote: null,
       readyToVote: false,
-      readyDialogOpen: true,
+      readyDialogOpen: false,
+      validationFormOpen: true,
       confirmVoteDialogOpen: false,
       voteButtonsDisabled: true,
       loadingBackdropOpen: false,
@@ -38,6 +40,7 @@ class App extends Component {
     this.pollButtonClicked = this.pollButtonClicked.bind(this);
     this.resetButtonClicked = this.resetButtonClicked.bind(this);
     this.updateReadyToVote = this.updateReadyToVote.bind(this);
+    this.updateValidateForm = this.updateValidateForm.bind(this);
     this.confirmVote = this.confirmVote.bind(this);
   }
 
@@ -167,6 +170,12 @@ class App extends Component {
     });
   }
 
+  updateValidateForm() {
+    this.setState({
+      validationFormOpen: false,
+    });
+  }
+
   toggleConfirmVoteDialogOpen() {
     this.setState({ confirmVoteDialogOpen: !this.state.confirmVoteDialogOpen });
   }
@@ -181,7 +190,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props.wallet);
     return (
       <div className="app">
         <div className="backdrops">
@@ -196,6 +204,10 @@ class App extends Component {
             <ReadyDialog
               open={this.state.readyDialogOpen}
               updateReadyToVote={this.updateReadyToVote}
+            />
+            <ValidateForm
+              open={this.state.validationFormOpen}
+              updateValidationForm={this.updateValidateForm}
             />
             <ConfirmVoteDialog
               open={this.state.confirmVoteDialogOpen}

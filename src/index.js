@@ -7,8 +7,6 @@ import * as nearlib from "near-api-js";
 // Initializing contract
 async function initContract() {
   window.nearConfig = getConfig(process.env.NODE_ENV || "development");
-  console.log("env", process.env.NODE_ENV || "development");
-  console.log("window.nearConfig", window.nearConfig);
 
   // Initializing connection to the NEAR DevNet.
   window.near = await nearlib.connect(
@@ -47,7 +45,6 @@ async function initContract() {
 
 window.nearInitPromise = initContract()
   .then(() => {
-    console.log("window.near", window.near);
     ReactDOM.render(
       <App contract={window.contract} wallet={window.walletAccount} />,
       document.getElementById("root")

@@ -2,7 +2,6 @@ const CONTRACT_NAME =
   process.env.CONTRACT_NAME || "dappvoter.bdevwantsdids.testnet";
 
 function getConfig(env) {
-  console.log("env: ", env);
   switch (env) {
     case "production":
     case "mainnet":
