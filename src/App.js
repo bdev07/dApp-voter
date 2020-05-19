@@ -13,8 +13,6 @@ import ThankYouDialog from "./components/dialogs/ThankYouDialog.component";
 import LoadingBackdrop from "./components/backdrops/LoadingBackdrop.component";
 import ValidateForm from "./components/dialogs/ValidateForm.component";
 
-// TODO: ensure sign will complete every time, one account per browser session
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -75,7 +73,6 @@ class App extends Component {
   }
 
   async welcome() {
-    console.log("account id: ", accountId);
     const response = await this.props.contract.welcome({
       account_id: accountId,
     });
@@ -93,7 +90,6 @@ class App extends Component {
   requestSignOut() {
     this.props.wallet.signOut();
     setTimeout(this.signedOutFlow, 500);
-    console.log("after sign out", this.props.wallet.isSignedIn());
   }
 
   async changeGreeting() {
@@ -151,7 +147,6 @@ class App extends Component {
   }
 
   async resetButtonClicked() {
-    console.log("resetButtonClicked(): ");
     await this.props.contract.reset_votes().then(async () => {
       this.setState({
         count1: await this.props.contract.get_candidate_votes({
@@ -257,27 +252,24 @@ class App extends Component {
                   Vote that way
                 </Button>
               </div>
-              {
-                //TODO: only show reset if admin account logged in
-                false === true && (
-                  <div className="poll-counts">
-                    <p>
-                      count1:{" "}
-                      {this.state.count1 === null ? "..." : this.state.count1}
-                    </p>
-                    <p>
-                      count2:{" "}
-                      {this.state.count2 === null ? "..." : this.state.count2}
-                    </p>
+              {false === true && (
+                <div className="poll-counts">
+                  <p>
+                    count1:{" "}
+                    {this.state.count1 === null ? "..." : this.state.count1}
+                  </p>
+                  <p>
+                    count2:{" "}
+                    {this.state.count2 === null ? "..." : this.state.count2}
+                  </p>
 
-                    <div className="reset-button">
-                      <Button onClick={() => this.resetButtonClicked()}>
-                        RESET COUNT
-                      </Button>
-                    </div>
+                  <div className="reset-button">
+                    <Button onClick={() => this.resetButtonClicked()}>
+                      RESET COUNT
+                    </Button>
                   </div>
-                )
-              }
+                </div>
+              )}
             </div>
           ) : (
             this.state.readyToVote && (
