@@ -58,6 +58,13 @@ class ThankYouDialog extends Component {
             <Button disabled onClick={this.handleClose}>
               Refresh page to vote again.
             </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={this.props.requestSignOut}
+            >
+              Log out/Finish Voting
+            </Button>
           </DialogActions>
         </Dialog>
       </div>

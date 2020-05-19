@@ -12,7 +12,7 @@ class ReadyDialog extends Component {
     super(props);
     this.state = {
       open: props.open,
-      license: "000000",
+      license: "1234567",
       licenseError: false,
       licenseHelperText: "",
     };
@@ -40,9 +40,11 @@ class ReadyDialog extends Component {
 
   handleRequestSignIn() {
     // validate form data
-    console.log(/^[a-zA-Z0-9\-_]{7,15}$/.test(this.state.license));
     if (/^[a-zA-Z0-9\-_]{7,15}$/.test(this.state.license)) {
       // initiate NEAR login sequence
+      this.props.requestSignIn();
+      // close dialog
+      this.handleClose();
     } else {
       this.setState({
         licenseError: true,
@@ -50,7 +52,6 @@ class ReadyDialog extends Component {
           "License # invalid.  Letters and numbers only, at least 7 characters.",
       });
     }
-    // close dialog
   }
 
   handleClose() {
@@ -76,7 +77,7 @@ class ReadyDialog extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Just enter dummy info for this demo.
+              Please enter your driver's license number
             </DialogContentText>
             <TextField
               autoFocus

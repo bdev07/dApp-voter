@@ -25,8 +25,8 @@ class App extends Component {
       count2: null,
       vote: null,
       readyToVote: false,
-      readyDialogOpen: false,
-      validationFormOpen: true,
+      readyDialogOpen: true,
+      validationFormOpen: false,
       confirmVoteDialogOpen: false,
       voteButtonsDisabled: true,
       loadingBackdropOpen: false,
@@ -56,6 +56,8 @@ class App extends Component {
   async signedInFlow() {
     this.setState({
       login: true,
+      readyDialogOpen: false,
+      voteButtonsDisabled: false,
       count1: await this.props.contract.get_candidate_votes({
         candidate: 1,
       }),
@@ -81,7 +83,7 @@ class App extends Component {
   }
 
   async requestSignIn() {
-    const appTitle = "NEAR React template";
+    const appTitle = "dApp Voter";
     await this.props.wallet.requestSignIn(
       window.nearConfig.contractName,
       appTitle
@@ -107,7 +109,7 @@ class App extends Component {
     }
     this.setState({
       login: false,
-      speech: null,
+      thankYouDialogOpen: false,
     });
   }
 
@@ -166,13 +168,14 @@ class App extends Component {
     this.setState({
       readyToVote: true,
       readyDialogOpen: false,
-      voteButtonsDisabled: false,
+      validationFormOpen: true,
     });
   }
 
   updateValidateForm() {
     this.setState({
       validationFormOpen: false,
+      voteButtonsDisabled: false,
     });
   }
 
@@ -197,7 +200,7 @@ class App extends Component {
         </div>
         <div className="app-header">
           <h1>dApp-Voter</h1>
-          <h4>Decentralized voting proof of concept.</h4>
+          <h4>Decentralized voting application.</h4>
         </div>
         <div className="app-body">
           <div className="dialogs">
@@ -207,7 +210,8 @@ class App extends Component {
             />
             <ValidateForm
               open={this.state.validationFormOpen}
-              updateValidationForm={this.updateValidateForm}
+              updateValidateForm={this.updateValidateForm}
+              requestSignIn={this.requestSignIn}
             />
             <ConfirmVoteDialog
               open={this.state.confirmVoteDialogOpen}
@@ -216,24 +220,25 @@ class App extends Component {
                 this
               )}
             />
-            <ThankYouDialog open={this.state.thankYouDialogOpen} />
-          </div>
-          <div className="wallet-info">
-            <div className="greeting">
-              <p className="subtitle">{this.state.speech}</p>
-            </div>
+            <ThankYouDialog
+              open={this.state.thankYouDialogOpen}
+              requestSignOut={this.requestSignOut}
+            />
           </div>
           {this.state.login ? (
             <div className="poll">
+              <div className="wallet-info">
+                <div className="greeting">
+                  <p className="greet">{this.state.speech}</p>
+                </div>
+              </div>
+
               <div className="login-buttons">
                 <Button variant="contained" onClick={this.requestSignOut}>
-                  Log out
-                </Button>
-                <Button variant="contained" onClick={this.changeGreeting}>
-                  Change greeting
+                  Log out/Cancel Vote
                 </Button>
               </div>
-              <p className="subtitle">Who shall rule the throne?</p>
+              <p className="subtitle">This is the ballot</p>
               <div className="poll-buttons">
                 <Button
                   disabled={this.state.voteButtonsDisabled}
@@ -241,7 +246,7 @@ class App extends Component {
                   color="primary"
                   variant="contained"
                 >
-                  Vote for John
+                  Vote this way
                 </Button>
                 <Button
                   disabled={this.state.voteButtonsDisabled}
@@ -249,36 +254,39 @@ class App extends Component {
                   color="secondary"
                   variant="contained"
                 >
-                  Vote for Susan
+                  Vote that way
                 </Button>
               </div>
-              <div className="poll-counts">
-                <p>
-                  count1:{" "}
-                  {this.state.count1 === null ? "..." : this.state.count1}
-                </p>
-                <p>
-                  count2:{" "}
-                  {this.state.count2 === null ? "..." : this.state.count2}
-                </p>
-              </div>
               {
-                //TODO: only show reset if admin account logged in?
-                true === true && (
-                  <div className="reset-button">
-                    <Button onClick={() => this.resetButtonClicked()}>
-                      RESET COUNT
-                    </Button>
+                //TODO: only show reset if admin account logged in
+                false === true && (
+                  <div className="poll-counts">
+                    <p>
+                      count1:{" "}
+                      {this.state.count1 === null ? "..." : this.state.count1}
+                    </p>
+                    <p>
+                      count2:{" "}
+                      {this.state.count2 === null ? "..." : this.state.count2}
+                    </p>
+
+                    <div className="reset-button">
+                      <Button onClick={() => this.resetButtonClicked()}>
+                        RESET COUNT
+                      </Button>
+                    </div>
                   </div>
                 )
               }
             </div>
           ) : (
-            <div>
-              <Button variant="contained" onClick={this.requestSignIn}>
-                Log in with NEAR
-              </Button>
-            </div>
+            this.state.readyToVote && (
+              <div>
+                <Button variant="contained" onClick={this.requestSignIn}>
+                  Log in with NEAR
+                </Button>
+              </div>
+            )
           )}
         </div>
         <div className="app-footer">

@@ -4,6 +4,7 @@ body {
 
 .app {
   background-color: aliceblue;
+  font-family: "Courier New", Courier, monospace;
 }
 
 .app-header {
@@ -66,9 +67,14 @@ body {
 }
 
 .subtitle {
-  font-size: 1.5rem;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.7rem;
+  color: #17324d;
+  margin: 2px 0px;
+}
+.greet {
+  font-size: 1rem;
   color: #323436;
-  text-shadow: 1px 1px #796825;
   margin: 2px 0px;
 }
 
@@ -95,21 +101,27 @@ h4 {
   padding: 2%;
 }
 
-/* .poll {
+.poll {
   align-content: space-between;
-} */
-
-.wallet-info {
-  background-color: rgb(158, 35, 35);
 }
+
+/* .wallet-info {
+  background-color: rgb(39, 32, 32);
+} */
 
 p {
   color: #3678aa;
 }
+.login-buttons {
+  margin: 20px;
+  margin-bottom: 40px;
+}
 
 .poll-buttons {
-  display: flex;
-  justify-content: space-around;
+  /* display: flex;
+  justify-content: space-around; */
+  align-items: space-between;
+  margin: 30px;
 }
 
 .poll-counts {
