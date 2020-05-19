@@ -1,10 +1,10 @@
 ## dApp Voter
 
-dApp Voter is a web based voting application made with simplicity and accessibility in mind. Each written is added to the blockchain for decentralized voting.
+dApp Voter is a web based voting application made with simplicity and accessibility in mind. The blockchain is utilized for decentralized voting and voter security.
 
 [Near Examples][1] were used to create the contract.
 
-[Create-near-app][2] was used as the template project.
+[Create-near-app][2] was used for the template project.
 
 ### Thought Process
 
